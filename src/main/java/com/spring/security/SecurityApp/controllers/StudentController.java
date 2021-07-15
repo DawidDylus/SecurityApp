@@ -1,6 +1,7 @@
 package com.spring.security.SecurityApp.controllers;
 
 import com.spring.security.SecurityApp.models.Student;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class StudentController {
 
 
     @GetMapping(path = "{studentId}")
+    @PreAuthorize("hasAuthority('student:read')")
     public Student getStudent(@PathVariable("studentId") Integer studentId){
 return STUDENTS.stream()
         .filter(student -> studentId.equals(student.getStudentId()))
