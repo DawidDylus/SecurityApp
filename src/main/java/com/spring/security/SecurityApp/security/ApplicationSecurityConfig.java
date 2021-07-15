@@ -1,6 +1,7 @@
 package com.spring.security.SecurityApp.security;
 
 
+import com.spring.security.SecurityApp.models.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+
 import java.net.PasswordAuthentication;
+
+import static com.spring.security.SecurityApp.security.ApplicationUserRole.ADMIN;
+import static com.spring.security.SecurityApp.security.ApplicationUserRole.STUDENT;
 
 @Configuration
 @EnableWebSecurity
@@ -44,11 +49,19 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
        UserDetails Dawid = User.builder()
                 .username("Dawid")
                 .password(passwordEncoder.encode("Password"))
-                .roles("STUDENT")
+                .roles(STUDENT.name())
                 .build();
 
+       UserDetails Admin = User.builder()
+               .username("admin")
+               .password((passwordEncoder.encode("admin")))
+               .roles(ADMIN.name())
+               .build();
+
+
        return new InMemoryUserDetailsManager(
-               Dawid
+               Dawid,
+               Admin
        );
     }
 }
